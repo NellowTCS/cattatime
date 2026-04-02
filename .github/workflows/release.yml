@@ -35,6 +35,14 @@ jobs:
         working-directory: frontend
         run: npm ci
 
+      - name: Cache frontend dependencies
+        uses: actions/cache@v3
+        with:
+          path: frontend/node_modules
+          key: node-frontend-${{ hashFiles('frontend/package-lock.json') }}
+          restore-keys: |
+            node-frontend-
+
       - name: Build ${{ matrix.os }}
         working-directory: frontend
         run: ${{ matrix.build-command }}

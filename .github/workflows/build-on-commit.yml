@@ -17,6 +17,22 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
+      - name: Cache frontend dependencies
+        uses: actions/cache@v3
+        with:
+          path: frontend/node_modules
+          key: node-frontend-${{ hashFiles('frontend/package-lock.json') }}
+          restore-keys: |
+            node-frontend-
+
+      - name: Cache backend dependencies
+        uses: actions/cache@v3
+        with:
+          path: backend/node_modules
+          key: node-backend-${{ hashFiles('backend/package-lock.json') }}
+          restore-keys: |
+            node-backend-
+
       - name: Lint and verify code quality
         working-directory: frontend
         run: |
