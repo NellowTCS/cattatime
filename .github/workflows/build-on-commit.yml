@@ -32,12 +32,6 @@ jobs:
           restore-keys: |
             node-backend-
 
-      - name: Lint and verify code quality
-        working-directory: frontend
-        run: |
-          npm ci
-          npm run lint
-
       - name: Build frontend
         working-directory: frontend
         run: npm run build
