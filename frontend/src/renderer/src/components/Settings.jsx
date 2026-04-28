@@ -1,36 +1,51 @@
 import { useState } from 'react'
+import PropTypes from 'prop-types'
 
-function Settings({toggleSettings, maxHours, setMaxHours, slackId, setSlackId, themeColor, setThemeColor, username, setUsername, setHours}) {
-  const [tempMaxHours, setTempMaxHours] = useState(maxHours/60/60);
-  const [tempSlackId, setTempSlackId] = useState(slackId);
-  const [tempUsername, setTempUsername] = useState(username);
+function Settings({
+  toggleSettings,
+  maxHours,
+  setMaxHours,
+  slackId,
+  setSlackId,
+  themeColor,
+  setThemeColor,
+  setUsername,
+  setHours
+}) {
+  const [tempMaxHours, setTempMaxHours] = useState(maxHours / 60 / 60)
+  const [tempSlackId, setTempSlackId] = useState(slackId)
+  // const [tempUsername, setTempUsername] = useState(username)
   const themeColors = ['LightPink', '#fcd95b', 'DarkSeaGreen', 'SkyBlue', 'DarkGray', '#eea9f5']
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  // const [loading, setLoading] = useState(false)
+  // const [error, setError] = useState(false)
 
-  const handleSave = (e) => {
-    console.log("saving");
-    getStats(tempSlackId).then(results => {
+  const handleSave = () => {
+    console.log('saving')
+    getStats(tempSlackId).then((results) => {
       setUsername(results.data.username)
       setHours(results.data.total_seconds)
     }) //ts .then gets the stats and then after it gets stats the alert existsf
-    setMaxHours(Number(tempMaxHours)*60*60); {/* "max hours" is a misnomer; the units for this in the system is in seconds, but the user input is their number of hours*/}
-    setSlackId(tempSlackId);
+    setMaxHours(Number(tempMaxHours) * 60 * 60)
+    {
+      /* "max hours" is a misnomer; the units for this in the system is in seconds, but the user input is their number of hours*/
+    }
+    setSlackId(tempSlackId)
   }
   const handleColorChange = (color) => {
-    setThemeColor(color);
+    setThemeColor(color)
   }
 
-    async function getStats(functionSlackId) {
-      const res = await fetch(`https://catatime-vercel.vercel.app/stats?slack_id=${functionSlackId}`);
-      const data = await res.json();
-      return data;
-    }
+  async function getStats(functionSlackId) {
+    const res = await fetch(`https://catatime-vercel.vercel.app/stats?slack_id=${functionSlackId}`)
+    const data = await res.json()
+    return data
+  }
 
   return (
     <div className="store">
       <h1>settings</h1>
-      <label>Hours per cup:&nbsp;
+      <label>
+        Hours per cup:&nbsp;
         <input
           id="maxHoursInput"
           type="number"
@@ -39,13 +54,14 @@ function Settings({toggleSettings, maxHours, setMaxHours, slackId, setSlackId, t
           min="1"
         />
       </label>
-      <label>Slack ID:&nbsp;
+      <label>
+        Slack ID:&nbsp;
         <input
           id="slackIdInput"
           type="text"
           value={tempSlackId}
           onChange={(e) => {
-            setTempSlackId(e.target.value);
+            setTempSlackId(e.target.value)
           }}
         />
       </label>
@@ -63,10 +79,27 @@ function Settings({toggleSettings, maxHours, setMaxHours, slackId, setSlackId, t
           ></div>
         ))}
       </div>
-      <button className="glass-light save" onClick={(e) => handleSave(e)}>save</button>
-      <button className="glass-light" onClick={toggleSettings}>close settings</button>
+      <button className="glass-light save" onClick={(e) => handleSave(e)}>
+        save
+      </button>
+      <button className="glass-light" onClick={toggleSettings}>
+        close settings
+      </button>
     </div>
   )
 }
 
-export default Settings;
+Settings.propTypes = {
+  toggleSettings: PropTypes.func.isRequired,
+  maxHours: PropTypes.number.isRequired,
+  setMaxHours: PropTypes.func.isRequired,
+  slackId: PropTypes.string.isRequired,
+  setSlackId: PropTypes.func.isRequired,
+  themeColor: PropTypes.string.isRequired,
+  setThemeColor: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
+  setUsername: PropTypes.func.isRequired,
+  setHours: PropTypes.func.isRequired
+}
+
+export default Settings

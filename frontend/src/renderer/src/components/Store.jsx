@@ -4,6 +4,7 @@ import miniUmbrellaImage from '../assets/images/store/mini-umbrella.png'
 import chocoStrawImage from '../assets/images/store/choco-straw.png'
 import saikiKImage from '../assets/images/store/saiki-k.png'
 import midnightBirdImage from '../assets/images/store/midnight-bird.png'
+import PropTypes from 'prop-types'
 
 function Store({ currency, buyItem, toggleStore, ownedItems }) {
   const inventory = [
@@ -54,6 +55,20 @@ function Store({ currency, buyItem, toggleStore, ownedItems }) {
       </button>
     </div>
   )
+}
+
+Store.propTypes = {
+  currency: PropTypes.number.isRequired,
+  buyItem: PropTypes.func.isRequired,
+  toggleStore: PropTypes.func.isRequired,
+  ownedItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired,
+      cost: PropTypes.number,
+      src: PropTypes.string
+    })
+  ).isRequired
 }
 
 export default Store

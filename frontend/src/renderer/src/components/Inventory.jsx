@@ -1,34 +1,56 @@
-import { useState } from 'react'
+import PropTypes from 'prop-types'
 
-function Inventory({ownedItems, toggleInventory, equippedItem, setEquippedItem}) {
+function Inventory({ ownedItems, toggleInventory, equippedItem, setEquippedItem }) {
   const equipItem = (itemId) => {
-    setEquippedItem(itemId);
-  };
+    setEquippedItem(itemId)
+  }
 
   return (
     <div className="store">
       <h1>Inventory</h1>
       <div className="store-grid">
-        {ownedItems.map(item => (
+        {ownedItems.map((item) => (
           <div key={item.id} className="store-item">
             {item.name}
-            {equippedItem != item.id &&
-              <button className="glass" onClick={() => equipItem(item.id)}>equip</button>
-            }
-            {equippedItem == item.id &&
-              <button className="glass" onClick={() => equipItem(-1)}>unequip</button>
-            }
+            {equippedItem != item.id && (
+              <button className="glass" onClick={() => equipItem(item.id)}>
+                equip
+              </button>
+            )}
+            {equippedItem == item.id && (
+              <button className="glass" onClick={() => equipItem(-1)}>
+                unequip
+              </button>
+            )}
           </div>
         ))}
       </div>
-      {equippedItem==-1 ?
-        <p><i>No item is currently equipped.</i></p> :
-        <p><i>Item #{equippedItem} is currently equipped.</i></p>
-
-      }
-      <button className="glass-light" onClick={toggleInventory}>close inventory</button>
+      {equippedItem == -1 ? (
+        <p>
+          <i>No item is currently equipped.</i>
+        </p>
+      ) : (
+        <p>
+          <i>Item #{equippedItem} is currently equipped.</i>
+        </p>
+      )}
+      <button className="glass-light" onClick={toggleInventory}>
+        close inventory
+      </button>
     </div>
   )
 }
 
-export default Inventory;
+Inventory.propTypes = {
+  ownedItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
+    })
+  ).isRequired,
+  toggleInventory: PropTypes.func.isRequired,
+  equippedItem: PropTypes.number.isRequired,
+  setEquippedItem: PropTypes.func.isRequired
+}
+
+export default Inventory

@@ -1,10 +1,7 @@
-import CatCup from './pages/CatCup';
+import CatCup from './pages/CatCup'
 
 function App() {
-
-  return (
-    <CatCup />
-  )
+  return <CatCup />
 }
 
 export default App
