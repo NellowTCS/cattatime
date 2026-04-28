@@ -25,7 +25,7 @@ jobs:
       - name: Cache frontend dependencies
         uses: actions/cache@v3
         with:
-          path: frontend/node_modules
+          path: frontend/
           key: \
             \
             node-frontend-${{ hashFiles('frontend/package-lock.json') }}
